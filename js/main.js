@@ -1,43 +1,18 @@
-/* eslint-disable id-length */
 const ADS_COUNT = 10;
 
-const getRandomIntegerNumber = (numberOne, numberTwo) => {
-  const lower = Math.ceil(Math.min(Math.abs(numberOne), Math.abs(numberTwo)));
-  const upper = Math.floor(Math.max(Math.abs(numberOne), Math.abs(numberTwo)));
-  return Math.floor(Math.random() * (upper - lower + 1) + lower);
-};
+const LATITUDE_START = 35.65000;
+const LATITUDE_END = 35.70000;
+const ACCURACY = 5;
+const LONGITUDE_START = 139.70000;
+const LONGITUDE_END = 139.80000;
 
-const getRandomDottedNumber = (numberOne, numberTwo, fix) => {
-  const lower = Math.ceil(Math.min(Math.abs(numberOne), Math.abs(numberTwo)));
-  const upper = Math.floor(Math.max(Math.abs(numberOne), Math.abs(numberTwo)));
-  const randomInt = Math.random() * (upper - lower) + lower;
-  return +randomInt.toFixed(fix);
-};
+const PRICE_MIN = 500;
+const PRICE_MAX = 200000;
 
-const getRandomArrayElement = (elements) => elements[getRandomIntegerNumber(0, elements.length - 1)];
-
-const shuffle = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = getRandomIntegerNumber(0, i);
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-};
-
-const createRandomArray = (array) => {
-  shuffle(array);
-  const arrayLength = getRandomIntegerNumber(1, array.length);
-  return array.slice(array, arrayLength);
-};
-
-
-const avatars = [];
-const getAvatars = () => {
-  for (let i = 0; i < ADS_COUNT; i++) {
-    (i < 9)? (avatars[i] = `img/avatars/user0${  i+1}.png`) : (avatars[i] = `img/avatars/user${  i+1}.png`);
-  }
-};
-getAvatars();
-shuffle(avatars);
+const ROOMS_MIN = 1;
+const ROOMS_MAX = 10;
+const GUESTS_MIN = 1;
+const GUESTS_MAX = 15;
 
 const TITLES = [
   'Bay Hotel Urayasu-ekimae',
@@ -51,7 +26,6 @@ const TITLES = [
   'Guest House',
   'Symfonia',
 ];
-shuffle(TITLES);
 
 const TYPES = [
   'palace',
@@ -94,7 +68,6 @@ const DESCRIPTION = [
   'Отель находится в 15 минутах ходьбы от зоопарка Уэно и Токийского национального музея. Токийский университет находится в 10 минутах ходьбы от отеля.',
   'Гости могут пообщаться в столовой и лаундже с 60-дюймовым телевизором с плоским экраном и видеоиграми. На территории также есть небольшая художественная галерея',
 ];
-shuffle(DESCRIPTION);
 
 const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
@@ -102,11 +75,54 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
+const getAvatars = () => {
+  const array = [];
+  for (let id = 1; id < ADS_COUNT + 1; id++) {
+    if (id < 10) {
+      array.push(`img/avatars/user0${  id}.png`);
+    } else {
+      array.push(`img/avatars/user${  id}.png`);
+    }
+  }
+  return array;
+};
+
+const avatars = getAvatars();
+
+const getRandomIntegerNumber = (numberOne, numberTwo) => {
+  const lower = Math.ceil(Math.min(Math.abs(numberOne), Math.abs(numberTwo)));
+  const upper = Math.floor(Math.max(Math.abs(numberOne), Math.abs(numberTwo)));
+  return Math.floor(Math.random() * (upper - lower + 1) + lower);
+};
+
+const getRandomDottedNumber = (numberOne, numberTwo, fix) => {
+  const lower = Math.ceil(Math.min(Math.abs(numberOne), Math.abs(numberTwo)));
+  const upper = Math.floor(Math.max(Math.abs(numberOne), Math.abs(numberTwo)));
+  const randomInt = Math.random() * (upper - lower) + lower;
+  return +randomInt.toFixed(fix);
+};
+
+const getRandomArrayElement = (elements) => elements[getRandomIntegerNumber(0, elements.length - 1)];
+
+const shuffle = (array) => {
+  const arrayForShuffle = array.slice();
+  for (let id = arrayForShuffle.length - 1; id > 0; id--) {
+    const idForSwap = getRandomIntegerNumber(0, id);
+    [arrayForShuffle[id], arrayForShuffle[idForSwap]] = [arrayForShuffle[idForSwap], arrayForShuffle[id]];
+  }
+  return arrayForShuffle;
+};
+
+const createRandomArray = (array) => {
+  const shuffledArray = shuffle(array);
+  const arrayLength = getRandomIntegerNumber(1, shuffledArray.length);
+  return shuffledArray.slice(0, arrayLength);
+};
 
 const createAd = () => {
   const createLocation = () => ({
-    lat: getRandomDottedNumber(35.65000, 35.70000, 5),
-    lng: getRandomDottedNumber(139.70000, 139.80000, 5),
+    lat: getRandomDottedNumber(LATITUDE_START, LATITUDE_END, ACCURACY),
+    lng: getRandomDottedNumber(LONGITUDE_START, LONGITUDE_END, ACCURACY),
   });
 
   const locationAndAdress = createLocation();
@@ -114,16 +130,16 @@ const createAd = () => {
   const createAuthor = () => ({avatar: avatars.pop()});
 
   const createOffer = () => ({
-    title: TITLES.pop(),
+    title: getRandomArrayElement(TITLES),
     adress: `${  locationAndAdress.lat}, ${  locationAndAdress.lng}`,
-    price: getRandomIntegerNumber(500, 200000),
+    price: getRandomIntegerNumber(PRICE_MIN, PRICE_MAX),
     type: getRandomArrayElement(TYPES),
-    rooms: getRandomIntegerNumber(1, 10),
-    guests: getRandomIntegerNumber(1, 15),
+    rooms: getRandomIntegerNumber(ROOMS_MIN, ROOMS_MAX),
+    guests: getRandomIntegerNumber(GUESTS_MIN, GUESTS_MAX),
     checkin: getRandomArrayElement(CHECKIN),
     checkout: getRandomArrayElement(CHECKOUT),
     features: createRandomArray(FEATURES),
-    description: DESCRIPTION.pop(),
+    description: getRandomArrayElement(DESCRIPTION),
     photos: createRandomArray(PHOTOS),
   });
 
