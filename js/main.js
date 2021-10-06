@@ -77,12 +77,9 @@ const PHOTOS = [
 
 const getAvatars = () => {
   const array = [];
-  for (let id = 1; id < ADS_COUNT + 1; id++) {
-    if (id < 10) {
-      array.push(`img/avatars/user0${  id}.png`);
-    } else {
-      array.push(`img/avatars/user${  id}.png`);
-    }
+  for (let id = 1; id <= ADS_COUNT; id++) {
+    const num = (id < 10) ? `0${id}` : `${id}`;
+    array.push(`img/avatars/user${num}.png`);
   }
   return array;
 };
@@ -115,7 +112,7 @@ const shuffle = (array) => {
 
 const createRandomArray = (array) => {
   const shuffledArray = shuffle(array);
-  const arrayLength = getRandomIntegerNumber(1, shuffledArray.length);
+  const arrayLength = getRandomIntegerNumber(0, shuffledArray.length);
   return shuffledArray.slice(0, arrayLength);
 };
 
