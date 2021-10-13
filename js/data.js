@@ -94,13 +94,13 @@ const createAd = () => {
     lng: getRandomDottedNumber(LONGITUDE_START, LONGITUDE_END, ACCURACY),
   });
 
-  const locationAndAdress = createLocation();
+  const locationAndaddress = createLocation();
 
   const createAuthor = () => ({avatar: avatars.pop()});
 
   const createOffer = () => ({
     title: getRandomArrayElement(TITLES),
-    adress: `${  locationAndAdress.lat}, ${  locationAndAdress.lng}`,
+    address: `${  locationAndaddress.lat}, ${  locationAndaddress.lng}`,
     price: getRandomIntegerNumber(PRICE_MIN, PRICE_MAX),
     type: getRandomArrayElement(TYPES),
     rooms: getRandomIntegerNumber(ROOMS_MIN, ROOMS_MAX),
@@ -115,10 +115,10 @@ const createAd = () => {
   return {
     author: createAuthor(),
     offer: createOffer(),
-    location: locationAndAdress,
+    location: locationAndaddress,
   };
 };
 
-const ads = Array.from({length: ADS_COUNT}, createAd);
+const createAds = () => Array.from({length: ADS_COUNT}, createAd);
 
-export {ads};
+export {createAds};
