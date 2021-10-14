@@ -1,3 +1,3 @@
-import './data.js';
-import {appendPopup, similarAds} from './filling.js';
-appendPopup(similarAds[2]);
+import './filling.js';
+
+import './form.js';

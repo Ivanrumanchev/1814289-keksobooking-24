@@ -106,4 +106,6 @@ const appendPopup = (similarAd) => {
   return mapCanvas.appendChild(popup);
 };
 
+appendPopup(similarAds[2]);
+
 export {appendPopup, similarAds};
