@@ -32,3 +32,14 @@ const createRandomArray = (array) => {
   return shuffledArray.slice(0, arrayLength);
 };
 export {createRandomArray};
+
+const isEmpty = (key) => {
+  if (key === '' || key === undefined || key.length === 0) {
+    return true;
+  }
+  return false;
+};
+export {isEmpty};
+
+const hideElement = (element) => element.style.display = 'none';
+export {hideElement};
