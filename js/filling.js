@@ -14,9 +14,7 @@ const mapCanvas = document.querySelector('#map-canvas');
 
 const similarAds = createAds();
 
-const popups = [];
-
-similarAds.forEach( (similarAd) => {
+const appendPopup = (similarAd) => {
   const popup = cardTemplatePopup.cloneNode(true);
 
   const popupTitle = popup.querySelector('.popup__title');
@@ -105,7 +103,7 @@ similarAds.forEach( (similarAd) => {
     hideElement(popupAvatar);
   }
 
-  popups.push(popup);
-});
+  return mapCanvas.appendChild(popup);
+};
 
-mapCanvas.appendChild(popups[0]);
+export {appendPopup, similarAds};

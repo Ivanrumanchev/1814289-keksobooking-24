@@ -1,2 +1,3 @@
 import './data.js';
-import './filling.js';
+import {appendPopup, similarAds} from './filling.js';
+appendPopup(similarAds[2]);
