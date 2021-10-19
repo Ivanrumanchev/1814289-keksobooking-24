@@ -1,12 +1,25 @@
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
-const titleInput = document.querySelector('#title');
+
+const ROOM_NUMBER_MAX = 100;
+const CAPACITY_MAX = 0;
+
+const PRICES_OF_TYPES = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
 
 const adFormList = document.querySelector('.ad-form');
 const mapFiltersList = document.querySelector('.map__filters');
 
+const titleInput = document.querySelector('#title');
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
+const price = document.querySelector('#price');
+const type = document.querySelector('#type');
 const formSubmit = document.querySelector('.ad-form__submit');
 
 const disableForm = (form) => {
@@ -28,6 +41,26 @@ disableForm(mapFiltersList);
 enableForm(adFormList);
 enableForm(mapFiltersList);
 
+const validationPrice = () => {
+  if (price.validity.valueMissing) {
+    return price.setCustomValidity('Пожалуйста, введите цену');
+  } else if (price.value < PRICES_OF_TYPES[type.value]) {
+    return price.setCustomValidity(`Минимальная цена для выбранного типа жилья должна быть не меньше ${  PRICES_OF_TYPES[type.value] } руб. за ночь`);
+  }
+  return price.setCustomValidity('');
+};
+
+const validationCapacity = () => {
+  if (roomNumber.value ===  String(ROOM_NUMBER_MAX) && capacity.value !==  String(CAPACITY_MAX)) {
+    return capacity.setCustomValidity('Выбранному кол-ву комнат может соответствовать только значение "Не для гостей"');
+  } else if (roomNumber.value !==  String(ROOM_NUMBER_MAX) && capacity.value ===  String(CAPACITY_MAX)) {
+    return capacity.setCustomValidity('Значение "Не для гостей" может соответствовать только кол-ву комнат, равному 100');
+  } else if (capacity.value > roomNumber.value) {
+    return capacity.setCustomValidity('Кол-во гостей не должно быть больше кол-ва комнат');
+  }
+  return capacity.setCustomValidity('');
+};
+
 titleInput.addEventListener('input', () => {
   const valueLength = titleInput.value.length;
 
@@ -42,16 +75,14 @@ titleInput.addEventListener('input', () => {
   titleInput.reportValidity();
 });
 
-const validationCapacity = () => {
-  if (roomNumber.value === '100' && capacity.value !== '0') {
-    return capacity.setCustomValidity('Кол-во комнат, равное 100, должно соответствовать значению "Не для гостей"');
-  } else if (roomNumber.value !== '100' && capacity.value === '0') {
-    return capacity.setCustomValidity('Значение "Не для гостей" должно соответствовать кол-ву комнат, равному 100');
-  } else if (capacity.value > roomNumber.value) {
-    return capacity.setCustomValidity('Кол-во гостей должно быть меньше либо равно кол-ву комнат');
-  }
-  return capacity.setCustomValidity('');
-};
+type.addEventListener('change', () => {
+  price.placeholder=`${  PRICES_OF_TYPES[type.value] }`;
+});
+
+price.addEventListener('input', () => {
+  validationPrice();
+  price.reportValidity();
+});
 
 capacity.addEventListener('change', () => {
   validationCapacity();
@@ -59,5 +90,6 @@ capacity.addEventListener('change', () => {
 });
 
 formSubmit.addEventListener('click', () => {
+  validationPrice();
   validationCapacity();
 });

@@ -396,12 +396,7 @@ fieldset {
 
 .ad-form__element input:invalid:focus,
 .ad-form__element select:invalid:focus {
-  border: 3px solid #ff0000;
-}
-
-.ad-form__element input:valid:focus,
-.ad-form__element select:valid:focus {
-  border: 3px solid #00ff00;
+  outline: 3px solid #ff0000;
 }
 
 .ad-form__element--time {
