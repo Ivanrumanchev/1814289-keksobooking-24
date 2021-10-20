@@ -20,6 +20,8 @@ const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
 const price = document.querySelector('#price');
 const type = document.querySelector('#type');
+const timeIn = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
 const formSubmit = document.querySelector('.ad-form__submit');
 
 const disableForm = (form) => {
@@ -87,6 +89,14 @@ price.addEventListener('input', () => {
 capacity.addEventListener('change', () => {
   validationCapacity();
   capacity.reportValidity();
+});
+
+timeIn.addEventListener('change', () => {
+  timeOut.value = timeIn.value;
+});
+
+timeOut.addEventListener('change', () => {
+  timeIn.value = timeOut.value;
 });
 
 formSubmit.addEventListener('click', () => {
