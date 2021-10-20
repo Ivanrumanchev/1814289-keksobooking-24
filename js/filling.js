@@ -33,7 +33,7 @@ const appendPopup = (similarAd) => {
 
   const popupPrice = popup.querySelector('.popup__text--price');
   if (!isEmpty(similarAd.offer.price)) {
-    popupPrice.innerHTML = `${similarAd.offer.price} <span>₽/ночь</span>`;
+    popupPrice.firstChild.textContent = `${similarAd.offer.price} `;
   } else {
     hideElement(popupPrice);
   }
