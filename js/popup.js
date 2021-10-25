@@ -1,4 +1,3 @@
-import {createAds} from './data.js';
 import {isEmpty, hideElement} from './util.js';
 
 const TYPES = {
@@ -10,11 +9,8 @@ const TYPES = {
 };
 
 const cardTemplatePopup = document.querySelector('#card').content.querySelector('.popup');
-const mapCanvas = document.querySelector('#map-canvas');
 
-const similarAds = createAds();
-
-const appendPopup = (similarAd) => {
+const createCustomPopup = (similarAd) => {
   const popup = cardTemplatePopup.cloneNode(true);
 
   const popupTitle = popup.querySelector('.popup__title');
@@ -103,9 +99,7 @@ const appendPopup = (similarAd) => {
     hideElement(popupAvatar);
   }
 
-  return mapCanvas.appendChild(popup);
+  return popup;
 };
 
-appendPopup(similarAds[2]);
-
-export {appendPopup, similarAds};
+export {createCustomPopup};

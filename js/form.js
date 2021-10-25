@@ -38,11 +38,6 @@ const enableForm = (form) => {
   }
 };
 
-disableForm(adFormList);
-disableForm(mapFiltersList);
-enableForm(adFormList);
-enableForm(mapFiltersList);
-
 const validationPrice = () => {
   if (price.validity.valueMissing) {
     return price.setCustomValidity('Пожалуйста, введите цену');
@@ -103,3 +98,5 @@ formSubmit.addEventListener('click', () => {
   validationPrice();
   validationCapacity();
 });
+
+export {disableForm, enableForm, adFormList, mapFiltersList};
