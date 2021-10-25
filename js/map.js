@@ -7,8 +7,8 @@ const CENTER_COORDINATES = {
   lng: 139.69171,
 };
 
-const MAIN_PIN_ICON_URL = '/img/main-pin.svg';
-const COMMON_PIN_ICON_URL = '/img/pin.svg';
+const MAIN_PIN_ICON_URL = 'img/main-pin.svg';
+const COMMON_PIN_ICON_URL = 'img/pin.svg';
 const MAIN_PIN_ICON_WIDTH = 52;
 const MAIN_PIN_ICON_HEIGHT = 52;
 const COMMON_PIN_ICON_WIDTH = 40;
@@ -38,7 +38,7 @@ L.tileLayer(
 const createPinIcon = (pinIconWidth, pinIconHeight, url) => {
   const pinIcon = L.icon({
     iconUrl: url,
-    shadowUrl: '/leaflet/images/marker-shadow.png',
+    shadowUrl: 'leaflet/images/marker-shadow.png',
     iconSize: [pinIconWidth, pinIconHeight],
     shadowSize: [pinIconWidth, pinIconHeight],
     iconAnchor: [pinIconWidth / 2, pinIconHeight],
