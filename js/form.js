@@ -12,17 +12,35 @@ const PRICES_OF_TYPES = {
   palace: 10000,
 };
 
+const ROOM_NUMBER_DEFAULT = 1;
+const CAPACITY_DEFAULT = 1;
+const TIME_IN_DEFAULT = '12:00';
+const TIME_OUT_DEFAULT = '12:00';
+const TYPE_DEFAULT = 'flat';
+
 const adFormList = document.querySelector('.ad-form');
 const mapFiltersList = document.querySelector('.map__filters');
 
 const titleInput = document.querySelector('#title');
+const address = document.querySelector('#address');
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
 const price = document.querySelector('#price');
 const type = document.querySelector('#type');
 const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
-const formSubmit = document.querySelector('.ad-form__submit');
+const submitButton = document.querySelector('.ad-form__submit');
+const resetButton = document.querySelector('.ad-form__reset');
+const description = document.querySelector('#description');
+const features = document.querySelectorAll('.features__checkbox');
+const avatar = document.querySelector('#avatar');
+const images = document.querySelector('#images');
+
+// const housingType = document.querySelector('#housing-type');
+// const housingPrice = document.querySelector('#housing-price');
+// const housingRooms = document.querySelector('#housing-rooms');
+// const housingGuests = document.querySelector('#housing-guests');
+// const housingFeatures = document.querySelectorAll('.map__checkbox');
 
 const disableForm = (form) => {
   form.classList.add(`${form.classList[0]}--disabled`);
@@ -94,9 +112,33 @@ timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
 });
 
-formSubmit.addEventListener('click', () => {
+submitButton.addEventListener('click', () => {
   validationPrice();
   validationCapacity();
 });
 
-export {disableForm, enableForm, adFormList, mapFiltersList};
+const setResetButton = (resetMap, setCoordinates) => {
+  adFormList.addEventListener('reset', (evt) => {
+    evt.preventDefault();
+
+    titleInput.value = '';
+    roomNumber.value = ROOM_NUMBER_DEFAULT;
+    capacity.value = CAPACITY_DEFAULT;
+    price.value = '';
+    price.placeholder = PRICES_OF_TYPES.flat;
+    type.value = TYPE_DEFAULT;
+    timeIn.value = TIME_IN_DEFAULT;
+    timeOut.value = TIME_OUT_DEFAULT;
+    description.value = '';
+    features.forEach((feature) => feature.checked = false);
+    avatar.value = '';
+    images.value = '';
+
+    address.value = `${setCoordinates.lat}, ${setCoordinates.lng}`;
+
+    mapFiltersList.reset();
+    resetMap();
+  });
+};
+
+export {disableForm, enableForm, setResetButton, adFormList, mapFiltersList, address, resetButton};
