@@ -1,4 +1,4 @@
-import {isEmpty, hideElement} from './util.js';
+import {isEmpty, hideElement, isEscapeKey} from './util.js';
 
 const TYPES = {
   flat: 'Квартира',
@@ -9,6 +9,8 @@ const TYPES = {
 };
 
 const cardTemplatePopup = document.querySelector('#card').content.querySelector('.popup');
+const successPopup = document.querySelector('#success').content.querySelector('.success');
+const errorPopup = document.querySelector('#error').content.querySelector('.error');
 
 const createCustomPopup = (similarAd) => {
   const popup = cardTemplatePopup.cloneNode(true);
@@ -102,4 +104,48 @@ const createCustomPopup = (similarAd) => {
   return popup;
 };
 
-export {createCustomPopup};
+const onSuccessPopupClick = () => removeSuccessPopup();
+const onErrorPopupClick = () => removeErrorPopup();
+
+const onSuccessPopupEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    removeSuccessPopup();
+  }
+};
+const onErrorPopupEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    removeErrorPopup();
+  }
+};
+
+const createSuccessPopup = () => {
+  const popup = successPopup.cloneNode(true);
+  document.body.append(popup);
+  document.addEventListener('click', onSuccessPopupClick);
+  document.addEventListener('keydown', onSuccessPopupEscKeydown);
+};
+
+function removeSuccessPopup() {
+  const newSuccessPopup = document.querySelector('body > .success');
+  newSuccessPopup.remove();
+  document.removeEventListener('click', onSuccessPopupClick);
+  document.removeEventListener('keydown', onSuccessPopupEscKeydown);
+}
+
+const createErrorPopup = () => {
+  const popup = errorPopup.cloneNode(true);
+  document.body.append(popup);
+  document.addEventListener('click', onErrorPopupClick);
+  document.addEventListener('keydown', onErrorPopupEscKeydown);
+};
+
+function removeErrorPopup() {
+  const newErrorPopup = document.querySelector('body > .error');
+  newErrorPopup.remove();
+  document.removeEventListener('click', onErrorPopupClick);
+  document.removeEventListener('keydown', onErrorPopupEscKeydown);
+}
+
+export {createCustomPopup, createSuccessPopup, createErrorPopup};

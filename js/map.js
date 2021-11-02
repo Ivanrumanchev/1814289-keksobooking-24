@@ -7,16 +7,17 @@ const CENTER_COORDINATES = {
 
 const MAIN_PIN_ICON_URL = 'img/main-pin.svg';
 const COMMON_PIN_ICON_URL = 'img/pin.svg';
+const SHADOW_PIN_URL = 'leaflet/images/marker-shadow.png';
 const MAIN_PIN_ICON_WIDTH = 52;
 const MAIN_PIN_ICON_HEIGHT = 52;
 const COMMON_PIN_ICON_WIDTH = 40;
 const COMMON_PIN_ICON_HEIGHT = 40;
-const SCALE = 9;
+const SCALE = 12;
 
 const createPinIcon = (pinIconWidth, pinIconHeight, url) => {
   const pinIcon = L.icon({
     iconUrl: url,
-    shadowUrl: 'leaflet/images/marker-shadow.png',
+    shadowUrl: SHADOW_PIN_URL,
     iconSize: [pinIconWidth, pinIconHeight],
     shadowSize: [pinIconWidth, pinIconHeight],
     iconAnchor: [pinIconWidth / 2, pinIconHeight],
@@ -67,4 +68,10 @@ const fillingMap = (map) => {
   mainMarker.addTo(map);
 };
 
-export {CENTER_COORDINATES, mainMarker, createMarker, createMap, fillingMap};
+const resetMap = (map) => () => {
+  map.setView(CENTER_COORDINATES, SCALE);
+  mainMarker.setLatLng(CENTER_COORDINATES);
+  map.closePopup();
+};
+
+export {CENTER_COORDINATES, mainMarker, createMarker, createMap, fillingMap, resetMap};
