@@ -126,9 +126,7 @@ const createSuccessPopup = () => {
   document.addEventListener('click', onSuccessPopupClick);
   document.addEventListener('keydown', onSuccessPopupEscKeydown);
 };
-// Долго пытался, но так и не получилось сделать removeSuccessPopup и removeErrorPopup стрелочными, так как получается,
-// что чтобы сделать своевременное подключение и удаление addEventListener нужно записать эти функции в обработчики раньше,
-//  чем они объявлены. Иначе не получается удалять обработчики.
+
 function removeSuccessPopup() {
   const newSuccessPopup = document.querySelector('body > .success');
   newSuccessPopup.remove();
