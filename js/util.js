@@ -70,3 +70,12 @@ export {showAlert};
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 export {isEscapeKey};
+
+const debounce = (callback, timeoutDelay) => {
+  let timeout;
+  return (...rest) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+export {debounce};

@@ -29,12 +29,6 @@ const resetButton = document.querySelector('.ad-form__reset');
 // const avatar = document.querySelector('#avatar');
 // const images = document.querySelector('#images');
 
-// const housingType = document.querySelector('#housing-type');
-// const housingPrice = document.querySelector('#housing-price');
-// const housingRooms = document.querySelector('#housing-rooms');
-// const housingGuests = document.querySelector('#housing-guests');
-// const housingFeatures = document.querySelectorAll('.map__checkbox');
-
 const disableForm = (form) => {
   form.classList.add(`${form.classList[0]}--disabled`);
   for (const formElement of form.children) {
@@ -110,7 +104,7 @@ submitButton.addEventListener('click', () => {
   validationCapacity();
 });
 
-const setResetButton = (resetMap, setCoordinates) => {
+const setResetButton = (resetMap, setCoordinates, renderSimilarAds) => {
   resetButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     adFormList.reset();
@@ -118,6 +112,7 @@ const setResetButton = (resetMap, setCoordinates) => {
     address.value = `${setCoordinates.lat}, ${setCoordinates.lng}`;
     mapFiltersList.reset();
     resetMap();
+    renderSimilarAds();
   });
 };
 
