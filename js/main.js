@@ -1,9 +1,9 @@
-import {disableForm, enableForm, setResetButton, adFormList, mapFiltersList, address, resetButton} from './form.js';
+import {disableForm, enableForm, setResetButton, setFilterChange, adFormList, mapFiltersList, address, resetButton} from './form.js';
 import {createSuccessPopup, createErrorPopup} from './popup.js';
 import {createMap, createMarker, CENTER_COORDINATES, mainMarker, fillingMap, resetMap} from './map.js';
 import {getAds, sendAd} from './api.js';
 import {showAlert, debounce} from './util.js';
-import {selectAds, compareAds, setHousingTypeChange, setHousingPriceChange, setHousingRoomsChange, setHousingGuestsChange, setFilterFeaturesChange} from './similar-ads.js';
+import {selectAds} from './similar-ads.js';
 
 const ADS_COUNT = 10;
 const RERENDER_DELAY = 500;
@@ -13,7 +13,6 @@ const renderSimilarAds = (similarAds, markerGroup) => {
   similarAds
     .slice()
     .filter(selectAds)
-    .sort(compareAds)
     .slice(0, ADS_COUNT)
     .forEach((similarAd) => {
       createMarker(similarAd, markerGroup);
@@ -38,11 +37,7 @@ map.on('load', () => {
   getAds(
     (similarAds) => {
       renderSimilarAds(similarAds, commonMarkerGroup);
-      setHousingTypeChange( debounce( () => renderSimilarAds(similarAds, commonMarkerGroup), RERENDER_DELAY) );
-      setHousingPriceChange( debounce( () => renderSimilarAds(similarAds, commonMarkerGroup), RERENDER_DELAY) );
-      setHousingRoomsChange( debounce( () => renderSimilarAds(similarAds, commonMarkerGroup), RERENDER_DELAY) );
-      setHousingGuestsChange( debounce( () => renderSimilarAds(similarAds, commonMarkerGroup), RERENDER_DELAY) );
-      setFilterFeaturesChange( debounce( () => renderSimilarAds(similarAds, commonMarkerGroup), RERENDER_DELAY) );
+      setFilterChange( debounce( () => renderSimilarAds(similarAds, commonMarkerGroup), RERENDER_DELAY) );
       setResetButton( () => resetMap(map), CENTER_COORDINATES, debounce( () => renderSimilarAds(similarAds, commonMarkerGroup), RERENDER_DELAY) );
       enableForm(mapFiltersList);
     },
@@ -71,12 +66,3 @@ const setAdFormSubmit = () => {
 };
 
 setAdFormSubmit();
-
-// setResetButton( () => resetMap(map), CENTER_COORDINATES, debounce( () => {
-//   getAds(
-//     (similarAds) => {
-//       renderSimilarAds(similarAds, commonMarkerGroup);
-//     },
-//     (message) => showAlert(message),
-//   );
-// }, RERENDER_DELAY) );

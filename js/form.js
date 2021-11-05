@@ -116,4 +116,10 @@ const setResetButton = (resetMap, setCoordinates, renderSimilarAds) => {
   });
 };
 
-export {disableForm, enableForm, setResetButton, adFormList, mapFiltersList, address, resetButton};
+const setFilterChange = (cb) => {
+  mapFiltersList.addEventListener('change', () => {
+    cb();
+  });
+};
+
+export {disableForm, enableForm, setResetButton, setFilterChange, adFormList, mapFiltersList, address, resetButton};
