@@ -68,7 +68,7 @@ const fillingMap = (map) => {
   mainMarker.addTo(map);
 };
 
-const resetMap = (map) => () => {
+const resetMap = (map) => {
   map.setView(CENTER_COORDINATES, SCALE);
   mainMarker.setLatLng(CENTER_COORDINATES);
   map.closePopup();

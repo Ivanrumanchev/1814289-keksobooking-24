@@ -1,15 +1,29 @@
-import {disableForm, enableForm, setResetButton, adFormList, mapFiltersList, address, resetButton} from './form.js';
+import {disableForm, enableForm, setResetButton, setFilterChange, adFormList, mapFiltersList, address, resetButton} from './form.js';
 import {createSuccessPopup, createErrorPopup} from './popup.js';
-import {createMap, CENTER_COORDINATES, mainMarker, createMarker, fillingMap, resetMap} from './map.js';
+import {createMap, createMarker, CENTER_COORDINATES, mainMarker, fillingMap, resetMap} from './map.js';
 import {getAds, sendAd} from './api.js';
-import {showAlert} from './util.js';
+import {showAlert, debounce} from './util.js';
+import {selectAds} from './similar-ads.js';
 
 const ADS_COUNT = 10;
+const RERENDER_DELAY = 500;
+
+const renderSimilarAds = (similarAds, markerGroup) => {
+  markerGroup.clearLayers();
+  similarAds
+    .slice()
+    .filter(selectAds)
+    .slice(0, ADS_COUNT)
+    .forEach((similarAd) => {
+      createMarker(similarAd, markerGroup);
+    });
+};
 
 disableForm(adFormList);
 disableForm(mapFiltersList);
 
 const map = createMap();
+const commonMarkerGroup = L.layerGroup().addTo(map);
 
 map.on('load', () => {
   address.value = `${CENTER_COORDINATES.lat}, ${CENTER_COORDINATES.lng}`;
@@ -20,16 +34,17 @@ map.on('load', () => {
 
   enableForm(adFormList);
 
-  const commonMarkerGroup = L.layerGroup().addTo(map);
-
   getAds(
     (similarAds) => {
-      similarAds.slice(0, ADS_COUNT).forEach((similarAd) => {
-        createMarker(similarAd, commonMarkerGroup);
-      });
+      renderSimilarAds(similarAds, commonMarkerGroup);
+      setFilterChange( debounce( () => renderSimilarAds(similarAds, commonMarkerGroup), RERENDER_DELAY) );
+      setResetButton( () => resetMap(map), CENTER_COORDINATES, debounce( () => renderSimilarAds(similarAds, commonMarkerGroup), RERENDER_DELAY) );
       enableForm(mapFiltersList);
     },
-    (message) => showAlert(message),
+    (message) => {
+      showAlert(message);
+      setResetButton( () => resetMap(map), CENTER_COORDINATES);
+    },
   );
 });
 
@@ -51,5 +66,3 @@ const setAdFormSubmit = () => {
 };
 
 setAdFormSubmit();
-
-setResetButton(resetMap(map), CENTER_COORDINATES);
