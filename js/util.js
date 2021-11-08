@@ -1,39 +1,15 @@
 const ALERT_SHOW_TIME = 5000;
-
-// const getRandomIntegerNumber = (numberOne, numberTwo) => {
-//   const lower = Math.ceil(Math.min(Math.abs(numberOne), Math.abs(numberTwo)));
-//   const upper = Math.floor(Math.max(Math.abs(numberOne), Math.abs(numberTwo)));
-//   return Math.floor(Math.random() * (upper - lower + 1) + lower);
-// };
-// export {getRandomIntegerNumber};
-
-// const getRandomDottedNumber = (numberOne, numberTwo, fix) => {
-//   const lower = Math.ceil(Math.min(Math.abs(numberOne), Math.abs(numberTwo)));
-//   const upper = Math.floor(Math.max(Math.abs(numberOne), Math.abs(numberTwo)));
-//   const randomInt = Math.random() * (upper - lower) + lower;
-//   return +randomInt.toFixed(fix);
-// };
-// export {getRandomDottedNumber};
-
-// const getRandomArrayElement = (elements) => elements[getRandomIntegerNumber(0, elements.length - 1)];
-// export {getRandomArrayElement};
-
-// const shuffle = (array) => {
-//   const arrayForShuffle = array.slice();
-//   for (let id = arrayForShuffle.length - 1; id > 0; id--) {
-//     const idForSwap = getRandomIntegerNumber(0, id);
-//     [arrayForShuffle[id], arrayForShuffle[idForSwap]] = [arrayForShuffle[idForSwap], arrayForShuffle[id]];
-//   }
-//   return arrayForShuffle;
-// };
-// export {shuffle};
-
-// const createRandomArray = (array) => {
-//   const shuffledArray = shuffle(array);
-//   const arrayLength = getRandomIntegerNumber(0, shuffledArray.length);
-//   return shuffledArray.slice(0, arrayLength);
-// };
-// export {createRandomArray};
+const ALERT_CONTAINER_STYLE = `
+  z-index: 100;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  padding: 10px 3px;
+  font-size: 30px;
+  text-align: center;
+  background-color: red;
+`;
 
 const isEmpty = (key) => {
   if (key === '' || key === undefined || key.length === 0) {
@@ -48,15 +24,7 @@ export {hideElement};
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100;
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
-  alertContainer.style.top = 0;
-  alertContainer.style.right = 0;
-  alertContainer.style.padding = '10px 3px';
-  alertContainer.style.fontSize = '30px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = 'red';
+  alertContainer.style = ALERT_CONTAINER_STYLE;
 
   alertContainer.textContent = message;
 

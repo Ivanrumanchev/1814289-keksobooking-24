@@ -1,10 +1,5 @@
 import {createCustomPopup} from './popup.js';
 
-const CENTER_COORDINATES = {
-  lat: 35.68950,
-  lng: 139.69171,
-};
-
 const MAIN_PIN_ICON_URL = 'img/main-pin.svg';
 const COMMON_PIN_ICON_URL = 'img/pin.svg';
 const SHADOW_PIN_URL = 'leaflet/images/marker-shadow.png';
@@ -13,6 +8,11 @@ const MAIN_PIN_ICON_HEIGHT = 52;
 const COMMON_PIN_ICON_WIDTH = 40;
 const COMMON_PIN_ICON_HEIGHT = 40;
 const SCALE = 12;
+
+const centerCoordinates = {
+  lat: 35.68950,
+  lng: 139.69171,
+};
 
 const createPinIcon = (pinIconWidth, pinIconHeight, url) => {
   const pinIcon = L.icon({
@@ -46,7 +46,7 @@ const createMarker = (similarAd, markerGroup) => {
 const mainPinIcon = createPinIcon(MAIN_PIN_ICON_WIDTH, MAIN_PIN_ICON_HEIGHT, MAIN_PIN_ICON_URL);
 
 const mainMarker = L.marker(
-  CENTER_COORDINATES,
+  centerCoordinates,
   {
     icon: mainPinIcon,
     draggable: true,
@@ -56,7 +56,7 @@ const mainMarker = L.marker(
 const createMap = () => L.map('map-canvas');
 
 const fillingMap = (map) => {
-  map.setView(CENTER_COORDINATES, SCALE);
+  map.setView(centerCoordinates, SCALE);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -69,9 +69,9 @@ const fillingMap = (map) => {
 };
 
 const resetMap = (map) => {
-  map.setView(CENTER_COORDINATES, SCALE);
-  mainMarker.setLatLng(CENTER_COORDINATES);
+  map.setView(centerCoordinates, SCALE);
+  mainMarker.setLatLng(centerCoordinates);
   map.closePopup();
 };
 
-export {CENTER_COORDINATES, mainMarker, createMarker, createMap, fillingMap, resetMap};
+export {centerCoordinates, mainMarker, createMarker, createMap, fillingMap, resetMap};
