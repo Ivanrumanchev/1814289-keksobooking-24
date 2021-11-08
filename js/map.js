@@ -53,7 +53,7 @@ const mainMarker = L.marker(
   },
 );
 
-const createMap = () => L.map('map-canvas');
+const createMap = () => L.map('map-canvas', { 'tap': false });
 
 const fillingMap = (map) => {
   map.setView(centerCoordinates, SCALE);
