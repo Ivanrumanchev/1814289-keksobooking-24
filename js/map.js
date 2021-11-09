@@ -9,7 +9,7 @@ const COMMON_PIN_ICON_WIDTH = 40;
 const COMMON_PIN_ICON_HEIGHT = 40;
 const SCALE = 12;
 
-const centerCoordinates = {
+const CENTER_COORDINATES = {
   lat: 35.68950,
   lng: 139.69171,
 };
@@ -46,7 +46,7 @@ const createMarker = (similarAd, markerGroup) => {
 const mainPinIcon = createPinIcon(MAIN_PIN_ICON_WIDTH, MAIN_PIN_ICON_HEIGHT, MAIN_PIN_ICON_URL);
 
 const mainMarker = L.marker(
-  centerCoordinates,
+  CENTER_COORDINATES,
   {
     icon: mainPinIcon,
     draggable: true,
@@ -56,7 +56,7 @@ const mainMarker = L.marker(
 const createMap = () => L.map('map-canvas', { 'tap': false });
 
 const fillingMap = (map) => {
-  map.setView(centerCoordinates, SCALE);
+  map.setView(CENTER_COORDINATES, SCALE);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -69,9 +69,9 @@ const fillingMap = (map) => {
 };
 
 const resetMap = (map) => {
-  map.setView(centerCoordinates, SCALE);
-  mainMarker.setLatLng(centerCoordinates);
+  map.setView(CENTER_COORDINATES, SCALE);
+  mainMarker.setLatLng(CENTER_COORDINATES);
   map.closePopup();
 };
 
-export {centerCoordinates, mainMarker, createMarker, createMap, fillingMap, resetMap};
+export {CENTER_COORDINATES, mainMarker, createMarker, createMap, fillingMap, resetMap};

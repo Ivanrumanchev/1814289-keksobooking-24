@@ -1,6 +1,6 @@
 import {disableForm, enableForm, setResetButton, setFilterChange, adFormList, mapFiltersList, address, resetButton} from './form.js';
 import {createSuccessPopup, createErrorPopup} from './popup.js';
-import {createMap, createMarker, centerCoordinates, mainMarker, fillingMap, resetMap} from './map.js';
+import {createMap, createMarker, CENTER_COORDINATES, mainMarker, fillingMap, resetMap} from './map.js';
 import {getAds, sendAd} from './api.js';
 import {showAlert, debounce} from './util.js';
 import {selectAds} from './similar-ads.js';
@@ -27,7 +27,7 @@ const map = createMap();
 const commonMarkerGroup = L.layerGroup().addTo(map);
 
 map.on('load', () => {
-  address.value = `${centerCoordinates.lat}, ${centerCoordinates.lng}`;
+  address.value = `${CENTER_COORDINATES.lat}, ${CENTER_COORDINATES.lng}`;
 
   mainMarker.on('move', (evt) => {
     address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
@@ -39,12 +39,12 @@ map.on('load', () => {
     (similarAds) => {
       renderSimilarAds(similarAds, commonMarkerGroup);
       setFilterChange( debounce( () => renderSimilarAds(similarAds, commonMarkerGroup), RERENDER_DELAY) );
-      setResetButton( () => resetMap(map), centerCoordinates, debounce( () => renderSimilarAds(similarAds, commonMarkerGroup), RERENDER_DELAY) );
+      setResetButton( () => resetMap(map), CENTER_COORDINATES, debounce( () => renderSimilarAds(similarAds, commonMarkerGroup), RERENDER_DELAY) );
       enableForm(mapFiltersList);
     },
     (message) => {
       showAlert(message);
-      setResetButton( () => resetMap(map), centerCoordinates);
+      setResetButton( () => resetMap(map), CENTER_COORDINATES);
     },
   );
 });
