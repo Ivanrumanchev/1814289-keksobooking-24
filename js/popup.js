@@ -12,9 +12,7 @@ const cardTemplatePopup = document.querySelector('#card').content.querySelector(
 const successPopup = document.querySelector('#success').content.querySelector('.success');
 const errorPopup = document.querySelector('#error').content.querySelector('.error');
 
-const createCustomPopup = (similarAd) => {
-  const popup = cardTemplatePopup.cloneNode(true);
-
+const createBaseForPopup = (similarAd, popup) => {
   const popupTitle = popup.querySelector('.popup__title');
   if ( !isEmpty(similarAd.offer.title) ) {
     popupTitle.textContent = similarAd.offer.title;
@@ -57,6 +55,22 @@ const createCustomPopup = (similarAd) => {
     hideElement(popupTime);
   }
 
+  const popupDescription = popup.querySelector('.popup__description');
+  if ( !isEmpty(similarAd.offer.description) ) {
+    popupDescription.textContent = similarAd.offer.description;
+  } else {
+    hideElement(popupDescription);
+  }
+
+  const popupAvatar = popup.querySelector('.popup__avatar');
+  if ( !isEmpty(similarAd.author.avatar) ) {
+    popupAvatar.src = similarAd.author.avatar;
+  } else {
+    hideElement(popupAvatar);
+  }
+};
+
+const createFeaturesForPopup = (similarAd, popup) => {
   const similarAdsFeatures = similarAd.offer.features;
   const popupFeaturesList = popup.querySelector('.popup__features');
   const popupFeatures = popupFeaturesList.querySelectorAll('.popup__feature');
@@ -73,14 +87,9 @@ const createCustomPopup = (similarAd) => {
   } else {
     hideElement(popupFeaturesList);
   }
+};
 
-  const popupDescription = popup.querySelector('.popup__description');
-  if ( !isEmpty(similarAd.offer.description) ) {
-    popupDescription.textContent = similarAd.offer.description;
-  } else {
-    hideElement(popupDescription);
-  }
-
+const createPhotosForPopup = (similarAd, popup) => {
   const popupPhotosList = popup.querySelector('.popup__photos');
   const popupPhoto = popupPhotosList.querySelector('.popup__photo');
   if ( !isEmpty(similarAd.offer.photos) ) {
@@ -93,13 +102,14 @@ const createCustomPopup = (similarAd) => {
   } else {
     hideElement(popupPhotosList);
   }
+};
 
-  const popupAvatar = popup.querySelector('.popup__avatar');
-  if ( !isEmpty(similarAd.author.avatar) ) {
-    popupAvatar.src = similarAd.author.avatar;
-  } else {
-    hideElement(popupAvatar);
-  }
+const createCustomPopup = (similarAd) => {
+  const popup = cardTemplatePopup.cloneNode(true);
+
+  createBaseForPopup(similarAd, popup);
+  createFeaturesForPopup(similarAd, popup);
+  createPhotosForPopup(similarAd, popup);
 
   return popup;
 };

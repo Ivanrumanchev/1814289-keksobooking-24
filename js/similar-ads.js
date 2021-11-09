@@ -13,8 +13,13 @@ const Default = {
   GUESTS : DEFAULT_VALUE,
 };
 
-const hasOverlapPrice = (similarAd, priceCurrent) => {
-  switch (priceCurrent) {
+const typeFilter = document.querySelector('#housing-type');
+const priceFilter = document.querySelector('#housing-price');
+const roomsFilter = document.querySelector('#housing-rooms');
+const guestsFilter = document.querySelector('#housing-guests');
+
+const hasOverlapPrice = (similarAd, price) => {
+  switch (price) {
     case PRICE_LEVEL_LOW : return (similarAd < PRICE_LOW);
     case PRICE_LEVEL_HIGH : return (similarAd > PRICE_HIGH);
     case PRICE_LEVEL_MIDDLE : return ((similarAd > PRICE_LOW) && (similarAd < PRICE_HIGH));
@@ -32,17 +37,13 @@ const hasOverlapFeatures = (similarAd, features) => {
 };
 
 const selectAds = (similarAd) => {
-  const typeCurrent = document.querySelector('#housing-type');
-  const selectedType = (similarAd.offer.type === typeCurrent.value) || (typeCurrent.value === Default.TYPE);
+  const selectedType = (similarAd.offer.type === typeFilter.value) || (typeFilter.value === Default.TYPE);
 
-  const priceCurrent = document.querySelector('#housing-price');
-  const selectedPrice = hasOverlapPrice(similarAd.offer.price, priceCurrent.value);
+  const selectedPrice = hasOverlapPrice(similarAd.offer.price, priceFilter.value);
 
-  const roomsCurrent = document.querySelector('#housing-rooms');
-  const selectedRooms = (similarAd.offer.rooms === +roomsCurrent.value) || (roomsCurrent.value === Default.ROOMS);
+  const selectedRooms = (similarAd.offer.rooms === +roomsFilter.value) || (roomsFilter.value === Default.ROOMS);
 
-  const guestsCurrent = document.querySelector('#housing-guests');
-  const selectedGuests = (similarAd.offer.guests === +guestsCurrent.value) || (guestsCurrent.value === Default.GUESTS);
+  const selectedGuests = (similarAd.offer.guests === +guestsFilter.value) || (guestsFilter.value === Default.GUESTS);
 
   const featuresChecked = document.querySelectorAll('#housing-features input:checked');
   const selectedFeatures = hasOverlapFeatures(similarAd.offer.features, featuresChecked);

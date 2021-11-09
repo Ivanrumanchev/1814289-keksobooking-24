@@ -42,7 +42,7 @@ const enableForm = (form) => {
   }
 };
 
-const validationPrice = () => {
+const validatePrice = () => {
   if (price.validity.valueMissing) {
     return price.setCustomValidity('Пожалуйста, введите цену');
   } else if (price.value < priceOfTypes[type.value]) {
@@ -51,7 +51,7 @@ const validationPrice = () => {
   return price.setCustomValidity('');
 };
 
-const validationCapacity = () => {
+const validateCapacity = () => {
   if (roomNumber.value ===  String(ROOM_NUMBER_MAX) && capacity.value !==  String(CAPACITY_MAX)) {
     return capacity.setCustomValidity('Выбранному кол-ву комнат может соответствовать только значение "Не для гостей"');
   } else if (roomNumber.value !==  String(ROOM_NUMBER_MAX) && capacity.value ===  String(CAPACITY_MAX)) {
@@ -81,12 +81,12 @@ type.addEventListener('change', () => {
 });
 
 price.addEventListener('input', () => {
-  validationPrice();
+  validatePrice();
   price.reportValidity();
 });
 
 capacity.addEventListener('change', () => {
-  validationCapacity();
+  validateCapacity();
   capacity.reportValidity();
 });
 
@@ -99,8 +99,8 @@ timeOut.addEventListener('change', () => {
 });
 
 submitButton.addEventListener('click', () => {
-  validationPrice();
-  validationCapacity();
+  validatePrice();
+  validateCapacity();
 });
 
 const setResetButton = (resetMap, setCoordinates, renderSimilarAds) => {
