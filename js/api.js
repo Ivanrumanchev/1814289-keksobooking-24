@@ -1,10 +1,15 @@
-const getAds = (onSuccess, onError) => fetch('https://24.javascript.pages.academy/keksobooking/data')
+const GET_ADS_LINK = 'https://24.javascript.pages.academy/keksobooking/data';
+const SEND_AD_LINK = 'https://24.javascript.pages.academy/keksobooking';
+const GET_ADS_ERROR_MESSAGE = 'Не удалось загрузить объявления. Попробуйте ещё раз';
+const SEND_AD_ERROR_MESSAGE = 'Не удалось отправить форму. Попробуйте ещё раз';
+
+const getAds = (onSuccess, onError) => fetch(GET_ADS_LINK)
   .then((response) => {
     if (response.ok) {
       return response.json();
     }
 
-    throw new Error('Не удалось загрузить объявления. Попробуйте ещё раз');
+    throw new Error(GET_ADS_ERROR_MESSAGE);
   })
   .then((ads) => {
     onSuccess(ads);
@@ -14,7 +19,7 @@ const getAds = (onSuccess, onError) => fetch('https://24.javascript.pages.academ
   });
 
 const sendAd = (onSuccess, onError, body) => {
-  fetch('https://24.javascript.pages.academy/keksobooking',
+  fetch(SEND_AD_LINK,
     {
       method: 'POST',
       body,
@@ -25,7 +30,7 @@ const sendAd = (onSuccess, onError, body) => {
         return onSuccess();
       }
 
-      throw new Error('Не удалось отправить форму. Попробуйте ещё раз');
+      throw new Error(SEND_AD_ERROR_MESSAGE);
     })
     .catch((err) => {
       onError(err);

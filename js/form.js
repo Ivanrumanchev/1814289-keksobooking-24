@@ -1,10 +1,12 @@
+import {resetPreviewImages} from './input-type-file.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
 const ROOM_NUMBER_MAX = 100;
 const CAPACITY_MAX = 0;
 
-const PRICES_OF_TYPES = {
+const priceOfTypes = {
   bungalow: 0,
   flat: 1000,
   hotel: 3000,
@@ -26,9 +28,6 @@ const timeOut = document.querySelector('#timeout');
 const submitButton = document.querySelector('.ad-form__submit');
 const resetButton = document.querySelector('.ad-form__reset');
 
-// const avatar = document.querySelector('#avatar');
-// const images = document.querySelector('#images');
-
 const disableForm = (form) => {
   form.classList.add(`${form.classList[0]}--disabled`);
   for (const formElement of form.children) {
@@ -46,8 +45,8 @@ const enableForm = (form) => {
 const validationPrice = () => {
   if (price.validity.valueMissing) {
     return price.setCustomValidity('Пожалуйста, введите цену');
-  } else if (price.value < PRICES_OF_TYPES[type.value]) {
-    return price.setCustomValidity(`Минимальная цена для выбранного типа жилья должна быть не меньше ${  PRICES_OF_TYPES[type.value] } руб. за ночь`);
+  } else if (price.value < priceOfTypes[type.value]) {
+    return price.setCustomValidity(`Минимальная цена для выбранного типа жилья должна быть не меньше ${  priceOfTypes[type.value] } руб. за ночь`);
   }
   return price.setCustomValidity('');
 };
@@ -78,7 +77,7 @@ titleInput.addEventListener('input', () => {
 });
 
 type.addEventListener('change', () => {
-  price.placeholder=`${  PRICES_OF_TYPES[type.value] }`;
+  price.placeholder=`${  priceOfTypes[type.value] }`;
 });
 
 price.addEventListener('input', () => {
@@ -108,7 +107,8 @@ const setResetButton = (resetMap, setCoordinates, renderSimilarAds) => {
   resetButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     adFormList.reset();
-    price.placeholder = PRICES_OF_TYPES.flat;
+    resetPreviewImages();
+    price.placeholder = priceOfTypes.flat;
     address.value = `${setCoordinates.lat}, ${setCoordinates.lng}`;
     mapFiltersList.reset();
     resetMap();

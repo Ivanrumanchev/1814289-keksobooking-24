@@ -4,6 +4,7 @@ import {createMap, createMarker, CENTER_COORDINATES, mainMarker, fillingMap, res
 import {getAds, sendAd} from './api.js';
 import {showAlert, debounce} from './util.js';
 import {selectAds} from './similar-ads.js';
+import './input-type-file.js';
 
 const ADS_COUNT = 10;
 const RERENDER_DELAY = 500;

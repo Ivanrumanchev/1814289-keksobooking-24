@@ -9,40 +9,26 @@ const PRICE_LEVEL_MIDDLE = 'middle';
 
 const Default = {
   TYPE : DEFAULT_VALUE,
-  PRICE : DEFAULT_VALUE,
   ROOMS : DEFAULT_VALUE,
   GUESTS : DEFAULT_VALUE,
 };
 
-// Не очень понял, как тут switch/case применить. У нас же приходит число с сервера, а не значение. Получается, что всё равно надо сравнивать это число
-// с уровнями, а в таком случае код становится длиннее..
-const definePriceLevel = (similarAdPrice) => {
-  if (isEmpty(similarAdPrice)) {
-    return DEFAULT_VALUE;
-  } else if (similarAdPrice < PRICE_LOW) {
-    return PRICE_LEVEL_LOW;
-  } else if (similarAdPrice > PRICE_HIGH) {
-    return PRICE_LEVEL_HIGH;
-  } else {
-    return PRICE_LEVEL_MIDDLE;
+const hasOverlapPrice = (similarAd, priceCurrent) => {
+  switch (priceCurrent) {
+    case PRICE_LEVEL_LOW : return (similarAd < PRICE_LOW);
+    case PRICE_LEVEL_HIGH : return (similarAd > PRICE_HIGH);
+    case PRICE_LEVEL_MIDDLE : return ((similarAd > PRICE_LOW) && (similarAd < PRICE_HIGH));
+    default : return true;
   }
 };
 
 const hasOverlapFeatures = (similarAd, features) => {
-  let hasOverlap;
-
-  if (isEmpty(features)) {
-    hasOverlap = false;
-  } else {
-    hasOverlap = Array.from(features).every((feature) => {
-      if (!isEmpty(similarAd)) {
-        return (similarAd.includes(feature.value));
-      }
-      return false;
-    });
+  if ( isEmpty(features) && isEmpty(similarAd) ) {
+    return true;
+  } else if ( isEmpty(similarAd) ) {
+    return false;
   }
-
-  return hasOverlap;
+  return Array.from(features).every( (feature) => similarAd.includes(feature.value) );
 };
 
 const selectAds = (similarAd) => {
@@ -50,8 +36,7 @@ const selectAds = (similarAd) => {
   const selectedType = (similarAd.offer.type === typeCurrent.value) || (typeCurrent.value === Default.TYPE);
 
   const priceCurrent = document.querySelector('#housing-price');
-  const similarAdPrice = similarAd.offer.price;
-  const selectedPrice = (definePriceLevel(similarAdPrice) === priceCurrent.value) || (priceCurrent.value === Default.PRICE);
+  const selectedPrice = hasOverlapPrice(similarAd.offer.price, priceCurrent.value);
 
   const roomsCurrent = document.querySelector('#housing-rooms');
   const selectedRooms = (similarAd.offer.rooms === +roomsCurrent.value) || (roomsCurrent.value === Default.ROOMS);
@@ -59,10 +44,8 @@ const selectAds = (similarAd) => {
   const guestsCurrent = document.querySelector('#housing-guests');
   const selectedGuests = (similarAd.offer.guests === +guestsCurrent.value) || (guestsCurrent.value === Default.GUESTS);
 
-  const similarAdFeatures = similarAd.offer.features;
   const featuresChecked = document.querySelectorAll('#housing-features input:checked');
-  const emptyBoth = isEmpty(featuresChecked) && isEmpty(similarAdFeatures);
-  const selectedFeatures = (emptyBoth) ? true : hasOverlapFeatures(similarAdFeatures, featuresChecked);
+  const selectedFeatures = hasOverlapFeatures(similarAd.offer.features, featuresChecked);
 
   return (selectedType && selectedPrice && selectedRooms && selectedGuests && selectedFeatures);
 };

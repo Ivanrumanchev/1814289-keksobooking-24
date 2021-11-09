@@ -1,10 +1,5 @@
 import {createCustomPopup} from './popup.js';
 
-const CENTER_COORDINATES = {
-  lat: 35.68950,
-  lng: 139.69171,
-};
-
 const MAIN_PIN_ICON_URL = 'img/main-pin.svg';
 const COMMON_PIN_ICON_URL = 'img/pin.svg';
 const SHADOW_PIN_URL = 'leaflet/images/marker-shadow.png';
@@ -13,6 +8,11 @@ const MAIN_PIN_ICON_HEIGHT = 52;
 const COMMON_PIN_ICON_WIDTH = 40;
 const COMMON_PIN_ICON_HEIGHT = 40;
 const SCALE = 12;
+
+const CENTER_COORDINATES = {
+  lat: 35.68950,
+  lng: 139.69171,
+};
 
 const createPinIcon = (pinIconWidth, pinIconHeight, url) => {
   const pinIcon = L.icon({
@@ -53,7 +53,7 @@ const mainMarker = L.marker(
   },
 );
 
-const createMap = () => L.map('map-canvas');
+const createMap = () => L.map('map-canvas', { 'tap': false });
 
 const fillingMap = (map) => {
   map.setView(CENTER_COORDINATES, SCALE);
