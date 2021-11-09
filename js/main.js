@@ -1,6 +1,6 @@
 import {disableForm, enableForm, setResetButton, setFilterChange, adFormList, mapFiltersList, address, resetButton} from './form.js';
 import {createSuccessPopup, createErrorPopup} from './popup.js';
-import {createMap, createMarker, CENTER_COORDINATES, mainMarker, fillingMap, resetMap} from './map.js';
+import {createMap, createMarker, CENTER_COORDINATES, mainMarker, fillMap, resetMap} from './map.js';
 import {getAds, sendAd} from './api.js';
 import {showAlert, debounce} from './util.js';
 import {selectAds} from './similar-ads.js';
@@ -49,7 +49,7 @@ map.on('load', () => {
   );
 });
 
-fillingMap(map);
+fillMap(map);
 
 const setAdFormSubmit = () => {
   adFormList.addEventListener('submit', (evt) => {

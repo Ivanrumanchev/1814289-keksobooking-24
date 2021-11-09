@@ -10,7 +10,7 @@ const housePhotoFileChooser = document.querySelector('#images');
 const avatarPreview = document.querySelector('.ad-form-header__preview');
 const housePhotoPreview = document.querySelector('.ad-form__photo');
 
-const matches = (file) => {
+const hasMatchType = (file) => {
   const fileName = file.name.toLowerCase();
   return FILE_TYPES.some((fileType) => fileName.endsWith(fileType));
 };
@@ -19,7 +19,7 @@ const onAvatarFileChooserChange = (fileChooser, preview) => {
   const file = fileChooser.files[0];
   const img = preview.firstElementChild;
 
-  if ( matches(file) ) {
+  if ( hasMatchType(file) ) {
     img.style = IMAGE_STYLE;
     preview.style = CONTAINER_STYLE;
     img.src = URL.createObjectURL(file);
@@ -29,7 +29,7 @@ const onAvatarFileChooserChange = (fileChooser, preview) => {
 const onHousePhotoFileChooserChange = (fileChooser, preview) => {
   const file = fileChooser.files[0];
 
-  if ( matches(file) ) {
+  if ( hasMatchType(file) ) {
     let img;
 
     if ( isEmpty(preview.children) ) {

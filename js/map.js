@@ -55,7 +55,7 @@ const mainMarker = L.marker(
 
 const createMap = () => L.map('map-canvas', { 'tap': false });
 
-const fillingMap = (map) => {
+const fillMap = (map) => {
   map.setView(CENTER_COORDINATES, SCALE);
 
   L.tileLayer(
@@ -74,4 +74,4 @@ const resetMap = (map) => {
   map.closePopup();
 };
 
-export {CENTER_COORDINATES, mainMarker, createMarker, createMap, fillingMap, resetMap};
+export {CENTER_COORDINATES, mainMarker, createMarker, createMap, fillMap, resetMap};
